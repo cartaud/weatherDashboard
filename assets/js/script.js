@@ -9,10 +9,8 @@ var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || [];
 searchBtnEl.addEventListener('click', function() {
     let city = searchEl.value;
     let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
-    searchHistoryArr.push(city);
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArr));
-    addBtn();
-    searchCity(locationRequestUrl);
+    
+    searchCity(locationRequestUrl, city);
 })
 
 //creates a search history list of all places user searches
@@ -20,6 +18,7 @@ function addBtn() {
     searchHistoryEl.innerHTML = '';
     searchHistoryArr.forEach(search => {
         let historyBtn = document.createElement('button');
+        historyBtn.setAttribute('class', 'historyBtn');
         historyBtn.textContent = search;
         searchHistoryEl.append(historyBtn);
     });
@@ -27,12 +26,18 @@ function addBtn() {
 addBtn(); //creates search history buttons when page first loads
 
 //take the most current city that the user searches and obtain the lat and long of city
-function searchCity(requestUrl) {
+function searchCity(requestUrl, city) {
+    
     fetch(requestUrl)
     .then(function (response) {
         return response.json()
     })
     .then(function (data) {
+        if (searchHistoryArr.indexOf(city) < 0 && data.length > 0) {
+            searchHistoryArr.push(city);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArr));
+            addBtn();
+        }
         console.log(data)
         let lat = data[0].lat;
         let lon = data[0].lon;
@@ -44,6 +49,7 @@ function searchCity(requestUrl) {
 }
 
 
+
 //get the data returned for that city and display the current weather 
 function getWeatherInfo(requestUrl, city){
     fetch(requestUrl)
@@ -52,22 +58,24 @@ function getWeatherInfo(requestUrl, city){
     })
     .then(function (data) {
         console.log(data);
+        let todayDate = moment().format('L');
         //gets the current weather info and adds it to page
         currentWeatherEl.innerHTML = `
-        <h1>${city} DATE <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
+        <h1>${city} (${todayDate}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
         <p>Temp: ${data.current.temp}°F</p>
         <p>Wind: ${data.current.wind_speed} MPH</p>
         <p>Humidity: ${data.current.humidity} %</p>
         <p>UV Index: ${data.current.uvi}</p>
         `;
         
+        
         //gets the forecasted next 5day weather info and adds it to page
         forecastWeatherEl.innerHTML = '';
-        for (let i=0; i<5;i++) {
+        for (let i=1; i<=5;i++) {
             let forecastDayEl = document.createElement('div')
             forecastDayEl.setAttribute('class', 'forecastDay');
             forecastDayEl.innerHTML = `
-            <h2>Date Here</h2>
+            <h2>${moment().add(i, 'days').format('L')}</h2>
             <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
             <p>Temp: ${data.daily[i].temp.day}°F</p>
             <p>Wind: ${data.daily[i].wind_speed} MPH</p>
