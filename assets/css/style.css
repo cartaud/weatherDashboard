@@ -74,5 +74,19 @@ button {
 
 #current img {
     width: 32px;
-    
+}
+
+#forecastWrap {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.forecastDay {
+    background-color: rgb(38, 39, 56);
+    color: white;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

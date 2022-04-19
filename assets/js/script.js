@@ -2,6 +2,7 @@ let searchEl = document.querySelector('#search');
 let searchBtnEl = document.querySelector('#searchBtn');
 let searchHistoryEl = document.querySelector('#searchHistory');
 let currentWeatherEl = document.querySelector('#current');
+let forecastWeatherEl = document.querySelector('#forecastWrap');
 
 //store the city the user searches into local
 var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
@@ -39,21 +40,29 @@ fetch(requestUrl)
     })
     .then(function (data) {
         console.log(data);
+        //gets the current weather info and adds it to page
         let currentTimezone = data.timezone
         let cityName = (currentTimezone.slice(currentTimezone.indexOf('/')+1));
-        let currentIconId = data.current.weather[0].icon;
         currentWeatherEl.innerHTML = `
-        <h1>${cityName}<img src='http://openweathermap.org/img/wn/${currentIconId}@2x.png'></h1>
+        <h1>${cityName}<img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
         <p>Temp: ${data.current.temp}°F</p>
         <p>Wind: ${data.current.wind_speed} MPH</p>
         <p>Humidity: ${data.current.humidity} %</p>
         <p>UV Index: ${data.current.uvi}</p>
         `;
         
-        // let template = "";
-        // data.forEach(datum => {
-        //     template += 
-        // })
+        //gets the forecasted next 5day weather info and adds it to page
+        for (let i=0; i<5;i++) {
+            let forecastDayEl = document.createElement('div')
+            forecastDayEl.setAttribute('class', 'forecastDay');
+            forecastDayEl.innerHTML = `
+            <h1>${cityName}<img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'></h1>
+            <p>Temp: ${data.daily[i].temp.day}°F</p>
+            <p>Wind: ${data.daily[i].wind_speed} MPH</p>
+            <p>Humidity: ${data.daily[i].humidity} %</p>
+            `
+            forecastWeatherEl.append(forecastDayEl)
+        }
       
     
       
