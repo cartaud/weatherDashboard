@@ -8,13 +8,14 @@ let forecastWeatherEl = document.querySelector('#forecastWrap');
 var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
 searchBtnEl.addEventListener('click', function() {
     let city = searchEl.value;
+    let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
     searchHistoryArr.push(city);
     localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArr));
     addBtn();
-    searchCity(city);
+    searchCity(locationRequestUrl);
 })
 
-//create a search history list of all places user searches
+//creates a search history list of all places user searches
 function addBtn() {
     searchHistoryEl.innerHTML = '';
     searchHistoryArr.forEach(search => {
@@ -26,25 +27,34 @@ function addBtn() {
 addBtn(); //creates search history buttons when page first loads
 
 //take the most current city that the user searches and obtain the lat and long of city
-let lat = 33;
-let lon = -94;
-function searchCity(city) {
+function searchCity(requestUrl) {
+    fetch(requestUrl)
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+        console.log(data)
+        let lat = data[0].lat;
+        let lon = data[0].lon;
+        let cityName = data[0].name;
+        let weatherRequestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=ce8a9858dadfcfb05f86b5d9eedb659d`;
+        getWeatherInfo(weatherRequestUrl, cityName)
+    })
     //need a function that finds the city that got searched geo cord and sets the vars to value
 }
-let requestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}.44&lon=${lon}.04&exclude=hourly,minutely&units=imperial&appid=ce8a9858dadfcfb05f86b5d9eedb659d`;
+
 
 //get the data returned for that city and display the current weather 
-fetch(requestUrl)
+function getWeatherInfo(requestUrl, city){
+    fetch(requestUrl)
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
         console.log(data);
         //gets the current weather info and adds it to page
-        let currentTimezone = data.timezone
-        let cityName = (currentTimezone.slice(currentTimezone.indexOf('/')+1));
         currentWeatherEl.innerHTML = `
-        <h1>${cityName}<img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
+        <h1>${city} DATE <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
         <p>Temp: ${data.current.temp}°F</p>
         <p>Wind: ${data.current.wind_speed} MPH</p>
         <p>Humidity: ${data.current.humidity} %</p>
@@ -52,23 +62,23 @@ fetch(requestUrl)
         `;
         
         //gets the forecasted next 5day weather info and adds it to page
+        forecastWeatherEl.innerHTML = '';
         for (let i=0; i<5;i++) {
             let forecastDayEl = document.createElement('div')
             forecastDayEl.setAttribute('class', 'forecastDay');
             forecastDayEl.innerHTML = `
-            <h1>${cityName}<img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'></h1>
+            <h2>Date Here</h2>
+            <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
             <p>Temp: ${data.daily[i].temp.day}°F</p>
             <p>Wind: ${data.daily[i].wind_speed} MPH</p>
             <p>Humidity: ${data.daily[i].humidity} %</p>
             `
             forecastWeatherEl.append(forecastDayEl)
         }
-      
-    
-      
-      
     });
-//display the forecasted weather for next 5 days
+}
+
+
 
 
 
