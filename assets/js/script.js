@@ -58,16 +58,24 @@ function getWeatherInfo(requestUrl, city){
     })
     .then(function (data) {
         console.log(data);
-        let todayDate = moment().format('L');
         //gets the current weather info and adds it to page
+        let uvStyle;
+        if (data.current.uvi > 6) {
+            uvStyle = 'red';
+        }
+        else if (data.current.uvi > 3) {
+            uvStyle = 'yellow'
+        }
+        else {
+            uvStyle = 'green'
+        }
         currentWeatherEl.innerHTML = `
-        <h1>${city} (${todayDate}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
+        <h1>${city} (${moment().format('L')}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
         <p>Temp: ${data.current.temp}°F</p>
         <p>Wind: ${data.current.wind_speed} MPH</p>
         <p>Humidity: ${data.current.humidity} %</p>
-        <p>UV Index: ${data.current.uvi}</p>
+        <p>UV Index: <span id="uvNumber" style="background-color: ${uvStyle}">${data.current.uvi}</span></p>
         `;
-        
         
         //gets the forecasted next 5day weather info and adds it to page
         forecastWeatherEl.innerHTML = '';

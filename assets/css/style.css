@@ -92,3 +92,9 @@ button {
     flex-direction: column;
     gap: 20px;
 }
+
+#uvNumber {
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+}
