@@ -8,8 +8,15 @@ let forecastWeatherEl = document.querySelector('#forecastWrap');
 var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
 searchBtnEl.addEventListener('click', startSearch)
 
-function startSearch() {
-    let city = searchEl.value;
+function startSearch(e) {
+    e.preventDefault()
+    let city;
+    if (e.target.value != 'inputValue') {
+        city = e.target.value
+    }
+    else {
+        city = searchEl.value;
+    }
     let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
     searchEl.value = '';
     searchCity(locationRequestUrl, city);
@@ -24,10 +31,17 @@ function addBtn() {
         historyBtn.setAttribute('value', `${search}`);
         historyBtn.textContent = search;
         searchHistoryEl.append(historyBtn);
-        //might need to use jQuery for event listener on history buttons
     });
+    addEvents()
 }
 addBtn(); //creates search history buttons when page first loads
+
+function addEvents() {
+    let historyBtns = document.querySelectorAll('.historyBtn');
+    historyBtns.forEach(historyBtn => {
+        historyBtn.addEventListener('click', startSearch)
+    })
+}
 
 //take the most current city that the user searches and obtain the lat and long of city
 function searchCity(requestUrl, city) {
@@ -64,10 +78,10 @@ function getWeatherInfo(requestUrl, city){
         console.log(data);
         //gets the current weather info and adds it to page
         let uvStyle;
-        if (data.current.uvi > 6) {
+        if (data.current.uvi >= 6) {
             uvStyle = 'red';
         }
-        else if (data.current.uvi > 3) {
+        else if (data.current.uvi >= 3) {
             uvStyle = '#e2e200'
         }
         else {
