@@ -15,7 +15,11 @@ function startSearch(e) {
         city = e.target.value
     }
     else {
-        city = searchEl.value;
+        let inputText = searchEl.value.toLowerCase().split(' ');
+        for (let i=0; i<inputText.length;i++){
+            inputText[i] = inputText[i].charAt(0).toUpperCase() + inputText[i].slice(1);
+        }
+        city = inputText.join(' ');
     }
     let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
     searchEl.value = '';
