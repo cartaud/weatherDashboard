@@ -6,12 +6,14 @@ let forecastWeatherEl = document.querySelector('#forecastWrap');
 
 //store the city the user searches into local
 var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
-searchBtnEl.addEventListener('click', function() {
+searchBtnEl.addEventListener('click', startSearch)
+
+function startSearch() {
     let city = searchEl.value;
     let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
-    
+    searchEl.value = '';
     searchCity(locationRequestUrl, city);
-})
+}
 
 //creates a search history list of all places user searches
 function addBtn() {
@@ -19,8 +21,10 @@ function addBtn() {
     searchHistoryArr.forEach(search => {
         let historyBtn = document.createElement('button');
         historyBtn.setAttribute('class', 'historyBtn');
+        historyBtn.setAttribute('value', `${search}`);
         historyBtn.textContent = search;
         searchHistoryEl.append(historyBtn);
+        //might need to use jQuery for event listener on history buttons
     });
 }
 addBtn(); //creates search history buttons when page first loads
@@ -64,7 +68,7 @@ function getWeatherInfo(requestUrl, city){
             uvStyle = 'red';
         }
         else if (data.current.uvi > 3) {
-            uvStyle = 'yellow'
+            uvStyle = '#e2e200'
         }
         else {
             uvStyle = 'green'
@@ -83,7 +87,7 @@ function getWeatherInfo(requestUrl, city){
             let forecastDayEl = document.createElement('div')
             forecastDayEl.setAttribute('class', 'forecastDay');
             forecastDayEl.innerHTML = `
-            <h2>${moment().add(i, 'days').format('L')}</h2>
+            <h3>${moment().add(i, 'days').format('L')}</h3>
             <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
             <p>Temp: ${data.daily[i].temp.day}°F</p>
             <p>Wind: ${data.daily[i].wind_speed} MPH</p>
