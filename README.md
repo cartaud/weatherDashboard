@@ -9,6 +9,6 @@ view the page <a href="https://cartaud.github.io/weatherDashboard/" target="_bla
 
 preview 
 
-<img width="600px" src="" alt="page preview">
+<img width="600px" src="https://github.com/cartaud/weatherDashboard/blob/main/assets/images/img1.png?raw=true" alt="page preview">
 
-<img width="600px" src="" alt="page preview">
+<img width="600px" src="https://github.com/cartaud/weatherDashboard/blob/main/assets/images/img2.png?raw=true" alt="page preview">
