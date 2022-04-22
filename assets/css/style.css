@@ -69,7 +69,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 10px;
+    margin: 7px 15px 10px 10px;
 }
 
 #current {
@@ -95,17 +95,18 @@ button {
 
 #forecastWrap {
     display: flex;
-    gap: 30px;
+    gap: 3%;
     margin-top: 10px;
 }
 
 .forecastDay {
     background-color: rgb(38, 39, 56);
     color: white;
+    width: 17.6%;
     padding: 10px 37px 20px 5px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 19px;
 }
 
 #uvNumber {
