@@ -87,7 +87,7 @@ function getWeatherInfo(requestUrl, city){
         }
         //template that adds all of our desired weather data to the page
         currentWeatherEl.innerHTML = `
-        <h1>${city} (${moment().format('L')}) <img src='http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
+        <h1>${city} (${moment().format('L')}) <img src='https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png'></h1>
         <p>Temp: ${data.current.temp}°F</p>
         <p>Wind: ${data.current.wind_speed} MPH</p>
         <p>Humidity: ${data.current.humidity} %</p>
@@ -101,7 +101,7 @@ function getWeatherInfo(requestUrl, city){
             forecastDayEl.setAttribute('class', 'forecastDay');
             forecastDayEl.innerHTML = `
             <h3>${moment().add(i, 'days').format('L')}</h3>
-            <img src='http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
+            <img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png'>
             <p>Temp: ${data.daily[i].temp.day}°F</p>
             <p>Wind: ${data.daily[i].wind_speed} MPH</p>
             <p>Humidity: ${data.daily[i].humidity} %</p>
