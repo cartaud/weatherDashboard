@@ -2,8 +2,9 @@ header {
     text-align: center;
     color: white;
     background: linear-gradient( 
-        rgb(91, 99, 255) 0%, 
-        rgb(30, 0, 112) 100%
+        90deg,
+        rgb(95, 103, 254) 0%, 
+        rgb(32, 5, 78) 100%
     );;
     font-size: 32px;
     padding: 10px 0 20px 0;
