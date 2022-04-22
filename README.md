@@ -1,2 +1,4 @@
 # weatherDashboard
-Search a city to find out what the weather is like there
+An easy way to find out what the weather is like in any city! Begin your search by typing in the city you want to find the weather for into the text box and hitting the blue search button. Within the section surrounded by the black border, you will see the city's name that you searched, the current date, an icon that represents what the weather is like, the average temperature for the day, current wind speed, humidity, and UV Index. Pay attention to the UV index color, if its green go out and enjoy the sun, if its yellow you can still enjoy the sun however I would suggest wearing sunscreen.  If the background is red, you probably want as minimal exposure to the sun as possible.
+
+Below the current weather information you will see the forecasted weather information for the next five days.  
