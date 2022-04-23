@@ -23,7 +23,7 @@ function startSearch(e) {
         }
         city = inputText.join(' ');
     }//link to geocoding API with the city value that was chosen above as a parameter 
-    let locationRequestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
+    let locationRequestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city ? city : 'San Diego'}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
     searchEl.value = ''; //clears text in text area 
     searchCity(locationRequestUrl);
 }
