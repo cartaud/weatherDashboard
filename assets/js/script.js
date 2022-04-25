@@ -2,8 +2,8 @@
 let searchEl = document.querySelector('#search');
 let searchBtnEl = document.querySelector('#searchBtn');
 let searchHistoryEl = document.querySelector('#searchHistory');
-let currentWeatherEl = document.querySelector('#current');
-let forecastWeatherEl = document.querySelector('#forecastWrap');
+let weatherEl = document.querySelector('#weatherInfo');
+
 
 //store the city the user searches into local
 var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
@@ -74,7 +74,12 @@ function getWeatherInfo(requestUrl, city){
         return response.json();
     })
     .then(function (data) {
-        
+        weatherEl.innerHTML = `
+        <div id="current"></div>
+        <div id="forecast"></div>
+        `
+        let currentWeatherEl = document.querySelector('#current');
+        let forecastContainerEl = document.querySelector('#forecast')
         let uvStyle; //depending on UV value, the background color changes color for high medium and low values
         if (data.current.uvi >= 6) {
             uvStyle = 'red';
@@ -93,7 +98,12 @@ function getWeatherInfo(requestUrl, city){
         <p>Humidity: ${data.current.humidity} %</p>
         <p>UV Index: <span id="uvNumber" style="background-color: ${uvStyle}">${data.current.uvi}</span></p>
         `;
-        
+
+        forecastContainerEl.innerHTML = `
+        <h2>5-day Forecast:</h2>
+        <div id="forecastWrap"></div>
+        `
+        let forecastWeatherEl = document.querySelector('#forecastWrap');
         //gets the forecasted next 5day weather info and adds it to page
         forecastWeatherEl.innerHTML = '';
         for (let i=1; i<=5;i++) {
