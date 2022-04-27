@@ -23,7 +23,7 @@ function startSearch(e) {
         }
         city = inputText.join(' ');
     }//link to geocoding API with the city value that was chosen above as a parameter 
-    let locationRequestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city ? city : 'San Diego'}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
+    let locationRequestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city ? city : 'San Diego'}&limit=1&appid=ce8a9858dadfcfb05f86b5d9eedb659d`
     searchEl.value = ''; //clears text in text area 
     searchCity(locationRequestUrl);
 }
@@ -44,7 +44,7 @@ function searchCity(requestUrl) {
         let lat = data[0].lat;  //gets the latitude and longitude of the city returned by API
         let lon = data[0].lon;
         //Adds the lat and lon values to weather API url so we can find the weather in the city we are searching for
-        let weatherRequestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=ce8a9858dadfcfb05f86b5d9eedb659d`;
+        let weatherRequestUrl = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=ce8a9858dadfcfb05f86b5d9eedb659d`;
         getWeatherInfo(weatherRequestUrl, cityName)
     })
     //need a function that finds the city that got searched geo cord and sets the vars to value
