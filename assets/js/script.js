@@ -1,12 +1,12 @@
 //targets specified html elements 
-let searchEl = document.querySelector('#search');
-let searchBtnEl = document.querySelector('#searchBtn');
-let searchHistoryEl = document.querySelector('#searchHistory');
-let weatherEl = document.querySelector('#weatherInfo');
+const searchEl = document.querySelector('#search');
+const searchBtnEl = document.querySelector('#searchBtn');
+const searchHistoryEl = document.querySelector('#searchHistory');
+const weatherEl = document.querySelector('#weatherInfo');
 
 
 //store the city the user searches into local
-var searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
+let searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory')) || []; 
 searchBtnEl.addEventListener('click', startSearch) //when blue search button get clicked, 
 
 //Begins are search when user clicks any button in the searchWrap element
@@ -78,8 +78,8 @@ function getWeatherInfo(requestUrl, city){
         <div id="current"></div>
         <div id="forecast"></div>
         `
-        let currentWeatherEl = document.querySelector('#current');
-        let forecastContainerEl = document.querySelector('#forecast')
+        const currentWeatherEl = document.querySelector('#current');
+        const forecastContainerEl = document.querySelector('#forecast')
         let uvStyle; //depending on UV value, the background color changes color for high medium and low values
         if (data.current.uvi >= 6) {
             uvStyle = 'red';
@@ -103,7 +103,7 @@ function getWeatherInfo(requestUrl, city){
         <h2>5-day Forecast:</h2>
         <div id="forecastWrap"></div>
         `
-        let forecastWeatherEl = document.querySelector('#forecastWrap');
+        const forecastWeatherEl = document.querySelector('#forecastWrap');
         //gets the forecasted next 5day weather info and adds it to page
         forecastWeatherEl.innerHTML = '';
         for (let i=1; i<=5;i++) {
